@@ -39,7 +39,7 @@ Music by Carnegie Hall, built on [Twill](https://twill.io/). An open-source
 ### 1.0.0
 
 - Initial release based on the code of [The Timeline of African American Music](https://timeline.carnegiehall.org) released on January 2022.
--  Code contains structural elements but not specific data (images, text, values) associated with the Timeline of African American Music.
+- Code contains structural elements but not specific data (images, text, values) associated with the Timeline of African American Music.
 - This code is provided “as is” and for you to use at your own risk. The information included in the contents of this repository is not necessarily complete. Carnegie Hall offers the scripts as-is and makes no representations or warranties of any kind.
 - Support or maintenance for use and modification is not provided. Future updates will be released at will.
 
@@ -116,6 +116,7 @@ _NB: The project root directory must NOT be publically accessible and you
 should never commit sensitive keys into a git repo._
 
 ## Set up the server
+
 ### Edit your `/etc/hosts` file:
 
 ```
@@ -146,7 +147,7 @@ Create your first CMS user via CLI.
 
 `php artisan twill:superadmin`
 
-##  Launch the admin
+## Launch the admin
 
 Visit the CMS and login with the credentials used to create the user with the
 command above: http://admin.timeline.test:8000/
