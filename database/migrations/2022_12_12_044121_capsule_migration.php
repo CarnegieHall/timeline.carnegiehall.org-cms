@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
@@ -16,6 +17,10 @@ return new class extends Migration
      */
     public function up()
     {
+        if (!Schema::hasTable('mediables')) {
+            return;
+        }
+
         foreach ($this->models as $model) {
             echo $model[0] . ' to ' . $model[1];
             DB::table('mediables')
@@ -31,6 +36,10 @@ return new class extends Migration
      */
     public function down()
     {
+        if (!Schema::hasTable('mediables')) {
+            return;
+        }
+
         foreach ($this->models as $model) {
             DB::table('mediables')
                 ->where('mediable_type', "App\Twill\Capsules\{$model[0]}\Models\{$model[1]}")

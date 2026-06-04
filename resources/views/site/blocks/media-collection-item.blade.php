@@ -1,9 +1,11 @@
 @php
-    $image = $block->imageAsArray('image', 'desktop');
+    $image = $block->imageAsArray('image');
 @endphp
 
 <div class="flex justify-between pb-10">
     <div class="text-xs text-gray-500">
+
+
         @if (isset($image['src']))
             <div><img src="{{ $image['src'] }}" class="max-h-[200px] max-w-[400px]" /></div>
         @endif

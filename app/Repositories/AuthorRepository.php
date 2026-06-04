@@ -16,7 +16,7 @@ class AuthorRepository extends ModuleRepository
     $this->model = $model;
   }
 
-  public function filter($query, array $scopes = [])
+  public function filter(\Illuminate\Database\Eloquent\Builder $query, array $scopes = []): \Illuminate\Database\Eloquent\Builder
   {
     if (isset($scopes['name'])) {
       $parts = Str::of($scopes['name'])->split('/[\s,]+/');
@@ -33,7 +33,7 @@ class AuthorRepository extends ModuleRepository
     return parent::filter($query, $scopes);
   }
 
-  public function order($query, array $orders = [])
+  public function order(\Illuminate\Database\Eloquent\Builder $query, array $orders = []): \Illuminate\Database\Eloquent\Builder
   {
     $query = $query->ordered();
     return parent::order($query, $orders);

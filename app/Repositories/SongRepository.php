@@ -7,6 +7,7 @@ use A17\Twill\Repositories\ModuleRepository;
 use App\Repositories\Behaviors\HandleBrowser;
 use App\Models\NotablePerformer;
 use App\Models\Song;
+use App\Models\Genre;
 
 class SongRepository extends ModuleRepository
 {
@@ -17,8 +18,11 @@ class SongRepository extends ModuleRepository
   {
     $this->model = $model;
   }
-
-  public function filter($query, array $scopes = [])
+  protected $relatedBrowsers = [
+    'genre',
+    'notable_performer'
+  ];
+  public function filter(\Illuminate\Database\Eloquent\Builder $query, array $scopes = []): \Illuminate\Database\Eloquent\Builder
   {
     if (isset($scopes['title'])) {
       $query->orWhere('title', 'like', "%{$scopes['title']}%");
@@ -34,14 +38,14 @@ class SongRepository extends ModuleRepository
 
     return parent::filter($query, $scopes);
   }
-
-  public function afterSave($object, $fields)
+  public function afterSave(\A17\Twill\Models\Contracts\TwillModelContract $object, array $fields): void
   {
     $this->updateBelongsTo($object, $fields, 'notable_performer', NotablePerformer::class);
+    $this->updateBelongsTo($object, $fields, 'genre', Genre::class);
     parent::afterSave($object, $fields);
   }
 
-  public function getFormFields($object)
+  public function getFormFields(\A17\Twill\Models\Contracts\TwillModelContract $object): array
   {
     $fields = parent::getFormFields($object);
     $artist = $object->notable_performer;
@@ -50,9 +54,11 @@ class SongRepository extends ModuleRepository
       $fields['browsers']['notable_performer'][] = [
         'id' => $artist->id,
         'name' => $artist->name,
-        'edit' => moduleRoute('notable_performers', '', 'edit', $artist->id)
+        'edit' => moduleRoute('notable_performers', '', 'edit', $artist->id),
+        'endpointType' => 'notable_performers'
       ];
     }
+
 
     return $fields;
   }

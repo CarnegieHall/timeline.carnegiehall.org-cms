@@ -69,4 +69,23 @@ return [
       ['name' => 'identifier', 'label' => 'Identifier']
     ]
   ],
+  'block_editor' => [
+    'crops' => [
+      'reference_image' => [
+        'default' => [
+          [
+            'name' => 'default'
+          ]
+        ],
+      ],
+      'image' => [
+        'default' => [
+          [
+            'name' => 'default'
+          ]
+        ],
+      ]
+    ],
+    'files' => ['demo_video']
+  ]
 ];

@@ -20,7 +20,7 @@ class AppleMusicCheck extends Model
     'is_archived' => 'boolean',
   ];
 
-  protected static function boot()
+  protected static function boot(): void
   {
     parent::boot();
     static::addGlobalScope(new NonArchived);

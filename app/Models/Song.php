@@ -3,14 +3,17 @@
 namespace App\Models;
 
 use A17\Twill\Models\Behaviors\HasFiles;
+use A17\Twill\Models\Behaviors\HasMedias;
 use A17\Twill\Models\Behaviors\HasRelated;
 use A17\Twill\Models\Model;
 use App\Models\NotablePerformer;
+use App\Models\Genre;
 
 class Song extends Model
 {
   use HasRelated;
   use HasFiles;
+  use HasMedias;
 
   protected $fillable = [
     'published',
@@ -18,6 +21,7 @@ class Song extends Model
     'mp4_sound',
     'mp4_video',
     'apple_music_song_id',
+    'genre_id',
     'notable_performer_id',
     'apple_music_payload',
     'apple_music_data_updated_at',
@@ -35,13 +39,18 @@ class Song extends Model
 
   public $mediasParams = [
     'hero' => [
-      'default' => []
+      'default' => [ // crop name
+        [
+          'name' => 'default', // ratio name, same as crop name if single
+          'ratio' => 16 / 9, // ratio as a fraction or number
+        ],
+      ],
     ],
   ];
 
   public function cmsImage()
   {
-    return isset($this->apple_music_artwork->url) ? str_replace('{w}', '600', str_replace('{h}', '600', $this->apple_music_artwork->url)) : null;
+    return isset($this->apple_music_artwork->url) ? str_replace('{w}', '600', str_replace('{h}', '600', $this->apple_music_artwork->url)) : "";
   }
 
   public function getAppleMusicPayloadAsStringAttribute()
@@ -120,5 +129,9 @@ class Song extends Model
   public function notable_performer()
   {
     return $this->belongsTo(NotablePerformer::class);
+  }
+  public function genre()
+  {
+    return $this->belongsTo(Genre::class);
   }
 }

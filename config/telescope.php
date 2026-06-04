@@ -97,10 +97,25 @@ return [
 
     'ignore_paths' => [
         'nova-api*',
+        'telescope*',
+        'horizon*',
+        'livewire*',
+        '_ignition*',
+        'health',
+        'up',
+        'favicon.ico',
+        'robots.txt',
     ],
 
     'ignore_commands' => [
-        //
+        'horizon:snapshot',
+        'horizon:work',
+        'horizon:supervisor',
+        'queue:work',
+        'queue:listen',
+        'schedule:run',
+        'schedule:work',
+        'telescope:prune',
     ],
 
     /*

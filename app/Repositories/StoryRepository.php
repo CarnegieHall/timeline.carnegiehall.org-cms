@@ -25,13 +25,13 @@ class StoryRepository extends ModuleRepository
     $this->model = $model;
   }
 
-  public function order($query, array $orders = [])
+  public function order(\Illuminate\Database\Eloquent\Builder $query, array $orders = []): \Illuminate\Database\Eloquent\Builder
   {
     $query = $query->ordered();
     return parent::order($query, $orders);
   }
 
-  public function afterSave($object, $fields)
+  public function afterSave(\A17\Twill\Models\Contracts\TwillModelContract $object, array $fields): void
   {
     $this->updateBelongsTo($object, $fields, 'song', Song::class);
     $this->updateBrowser($object, $fields, 'authors');
@@ -39,7 +39,7 @@ class StoryRepository extends ModuleRepository
     parent::afterSave($object, $fields);
   }
 
-  public function getFormFields($object)
+  public function getFormFields(\A17\Twill\Models\Contracts\TwillModelContract $object): array
   {
     $fields = parent::getFormFields($object);
     $fields['browsers']['authors'] = $this->getFormFieldsForBrowser($object, 'authors', 'more');

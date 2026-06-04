@@ -19,3 +19,7 @@ yarn-error.log
 /.vagrant
 apple-music.key
 apple-music.p8
+
+# Local env scratch files
+new-env.tmp
+*.tmp

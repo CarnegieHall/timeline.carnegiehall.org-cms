@@ -21,13 +21,13 @@ class MenuRepository extends ModuleRepository
     $this->model = $model;
   }
 
-  public function afterSave($object, $fields)
+  public function afterSave($object, array $fields): void
   {
     $this->updateRepeater($object, $fields, 'menu_items', 'App\Repositories\MenuItemRepository', 'menu_item');
     parent::afterSave($object, $fields);
   }
 
-  public function getFormFields($object)
+  public function getFormFields($object): array
   {
     $fields = parent::getFormFields($object);
     $fields = $this->getFormFieldsForRepeater($object, $fields, 'menu_items', 'App\Repositories\MenuItemRepository', 'menu_item');

@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Models\Genre;
 
 class SongResource extends JsonResource
 {
@@ -14,7 +15,12 @@ class SongResource extends JsonResource
    */
   public function toArray($request)
   {
-    $isApiV2 = str_contains($request->route()->uri, 'v2');
+    $route = $request->route();
+    $isApiV2 = $route && str_contains($route->uri, 'v2');
+    $mainGenre = null;
+    if ($this->genre) {
+      $mainGenre = Genre::find($this->genre_id);
+    }
 
     return [
       'id' => $this->id,
@@ -41,6 +47,9 @@ class SongResource extends JsonResource
           'artwork' => $this->apple_music_artwork,
           'preview_song_url' => $this->apple_music_preview_song_url,
         ],
+      ]),
+      $this->mergeWhen($mainGenre !== null, [
+        'genre' => GenreResource::make($mainGenre),
       ]),
       'video_file' => $this->file('video'),
     ];
