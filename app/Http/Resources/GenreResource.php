@@ -15,11 +15,11 @@ class GenreResource extends JsonResource
 {
   public function toArray($request)
   {
-    $lite = str_contains($request->route()->uri, 'v2') && !str_contains($request->route()->uri, '{genre}');
+    $lite = (str_contains($request->route()->uri, 'v2') && !str_contains($request->route()->uri, '{genre}') && !str_contains($request->route()->uri, 'homepage'));
     $blocks = [];
 
     if (!$lite) {
-      $blocks = $this->blocks()->whereNull('parent_id')->with(['children.files'])->get();
+      $blocks = $this->blocks()->whereNull('parent_id')->with(['children.files', 'children.medias'])->get();
 
       foreach ($blocks as $block) {
         if ($block->type == 'text') {
@@ -119,6 +119,16 @@ class GenreResource extends JsonResource
             if (isset($child->content['browsers']['musicVideos'])) {
               $child->music_videos = MusicVideoResource::collection(MusicVideo::find($child->content['browsers']['musicVideos']));
             }
+
+            // Use Twill's imageAsArray method for proper image handling
+            $child->image = $child->imageAsArray('image');
+
+            // Add other content fields
+            $child->caption = $child->content['caption'] ?? '';
+            $child->credit = $child->content['credit'] ?? '';
+            $child->credit_link = $child->content['credit_link'] ?? '';
+            $child->vimeo_url = $child->content['vimeo_url'] ?? null;
+            $child->youtube_url = $child->content['youtube_url'] ?? null;
           }
 
           unset($child->id);

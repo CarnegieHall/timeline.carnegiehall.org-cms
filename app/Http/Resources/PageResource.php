@@ -28,7 +28,7 @@ class PageResource extends JsonResource
     $blocks = [];
 
     if (!$lite) {
-      $blocks = $this->blocks()->whereNull('parent_id')->with(['children.files'])->get();
+      $blocks = $this->blocks()->whereNull('parent_id')->with(['children.files', 'children.medias'])->get();
 
       foreach ($blocks as $block) {
         if ($block->type == 'text') {
@@ -137,6 +137,16 @@ class PageResource extends JsonResource
             if (isset($child->content['browsers']['musicVideos'])) {
               $child->music_videos = MusicVideoResource::collection(MusicVideo::find($child->content['browsers']['musicVideos']));
             }
+
+            // Use Twill's imageAsArray method for proper image handling (matching frontend pattern)
+            $child->image = $child->imageAsArray('image', 'desktop');
+
+            // Add other content fields
+            $child->caption = $child->content['caption'] ?? '';
+            $child->credit = $child->content['credit'] ?? '';
+            $child->credit_link = $child->content['credit_link'] ?? '';
+            $child->vimeo_url = $child->content['vimeo_url'] ?? null;
+            $child->youtube_url = $child->content['youtube_url'] ?? null;
           }
 
           unset($child->id);

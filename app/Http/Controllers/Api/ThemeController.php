@@ -19,7 +19,8 @@ class ThemeController extends Controller
     $isDraft = str_contains(request()->route()->uri, 'v2') && isset(request()->query()['draft']);
     if ($isDraft) {
       $data = Theme::orderBy('title', 'ASC')->get();
-      if ($data) return response()->json(ThemeResource::collection($data));
+      if ($data)
+        return response()->json(ThemeResource::collection($data));
     }
 
     $cacheTTL = now()->addSeconds(60);
@@ -46,7 +47,8 @@ class ThemeController extends Controller
       $data = Theme::published()
         ->where('id', $id)
         ->first();
-      if ($data) return response()->json(new ThemeResource($data));
+      if ($data)
+        return response()->json(new ThemeResource($data));
     }
 
     return Cache::remember('theme_' . $id, config('cache.expiration'), function () use ($id) {

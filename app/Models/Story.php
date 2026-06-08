@@ -62,6 +62,13 @@ class Story extends Model
         ],
       ],
     ],
+    'image' => [
+      'default' => [
+        [
+          'name' => 'default'
+        ],
+      ],
+    ],
     'seo_image' => [
       'default' => [
         [

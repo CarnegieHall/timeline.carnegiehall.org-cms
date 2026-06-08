@@ -28,7 +28,7 @@ class GenreRepository extends ModuleRepository
     $this->model = $model;
   }
 
-  public function afterSave($object, $fields)
+  public function afterSave(\A17\Twill\Models\Contracts\TwillModelContract $object, array $fields): void
   {
     $this->updateBrowser($object, $fields, 'authors');
     $this->updateBelongsTo($object, $fields, 'song', Song::class);
@@ -45,7 +45,7 @@ class GenreRepository extends ModuleRepository
     parent::afterSave($object, $fields);
   }
 
-  public function getFormFields($object)
+  public function getFormFields(\A17\Twill\Models\Contracts\TwillModelContract $object): array
   {
     $fields = parent::getFormFields($object);
     $fields['browsers']['notable_performers'] = $this->getFormFieldsForBrowser($object, 'notable_performers', null, 'name');

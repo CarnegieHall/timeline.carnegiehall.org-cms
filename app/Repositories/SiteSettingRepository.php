@@ -27,14 +27,14 @@ class SiteSettingRepository extends ModuleRepository
     return $this->generate();
   }
 
-  public function afterSave($object, $fields)
+  public function afterSave(\A17\Twill\Models\Contracts\TwillModelContract $object, array $fields): void
   {
     $this->updateBelongsTo($object, $fields, 'song', Song::class);
     $this->updateBrowser($object, $fields, 'featured_stories');
     parent::afterSave($object, $fields);
   }
 
-  public function getFormFields($object)
+  public function getFormFields(\A17\Twill\Models\Contracts\TwillModelContract $object): array
   {
     $fields = parent::getFormFields($object);
     $fields['browsers']['featured_stories'] = $this->getFormFieldsForBrowser($object, 'featured_stories', null, 'title', 'stories');

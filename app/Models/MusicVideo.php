@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use A17\Twill\Models\Behaviors\HasFiles;
+use A17\Twill\Models\Behaviors\HasMedias;
 use A17\Twill\Models\Behaviors\HasRelated;
 use A17\Twill\Models\Model;
 use App\Models\NotablePerformer;
@@ -11,6 +12,7 @@ class MusicVideo extends Model
 {
   use HasRelated;
   use HasFiles;
+  use HasMedias;
 
   protected $fillable = [
     'published',

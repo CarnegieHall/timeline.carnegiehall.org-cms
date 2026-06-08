@@ -18,7 +18,7 @@ class MenuItemRepository extends ModuleRepository
     $this->model = $model;
   }
 
-  public function prepareFieldsBeforeCreate($fields)
+  public function prepareFieldsBeforeCreate(array $fields): array
   {
     $fields = parent::prepareFieldsBeforeCreate($fields);
     $fields['linkable_id'] = Arr::get($fields, 'browsers.linkables.0.id', null);
@@ -27,7 +27,7 @@ class MenuItemRepository extends ModuleRepository
     return $fields;
   }
 
-  public function prepareFieldsBeforeSave($object, $fields)
+  public function prepareFieldsBeforeSave(\A17\Twill\Models\Contracts\TwillModelContract $object, array $fields): array
   {
     $fields = parent::prepareFieldsBeforeSave($object, $fields);
 
@@ -44,7 +44,7 @@ class MenuItemRepository extends ModuleRepository
     return $fields;
   }
 
-  public function getFormFields($object)
+  public function getFormFields(\A17\Twill\Models\Contracts\TwillModelContract $object): array
   {
     $fields = parent::getFormFields($object);
 

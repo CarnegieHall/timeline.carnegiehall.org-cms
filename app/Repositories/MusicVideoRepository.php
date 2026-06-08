@@ -18,7 +18,7 @@ class MusicVideoRepository extends ModuleRepository
     $this->model = $model;
   }
 
-  public function filter($query, array $scopes = [])
+  public function filter(\Illuminate\Database\Eloquent\Builder $query, array $scopes = []): \Illuminate\Database\Eloquent\Builder
   {
     if (isset($scopes['title'])) {
       $query->orWhere('title', 'like', "%{$scopes['title']}%");
@@ -35,13 +35,13 @@ class MusicVideoRepository extends ModuleRepository
     return parent::filter($query, $scopes);
   }
 
-  public function afterSave($object, $fields)
+  public function afterSave(\A17\Twill\Models\Contracts\TwillModelContract $object, array $fields): void
   {
     $this->updateBelongsTo($object, $fields, 'notable_performer', NotablePerformer::class);
     parent::afterSave($object, $fields);
   }
 
-  public function getFormFields($object)
+  public function getFormFields(\A17\Twill\Models\Contracts\TwillModelContract $object): array
   {
     $fields = parent::getFormFields($object);
     $artist = $object->notable_performer;
